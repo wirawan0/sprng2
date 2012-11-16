@@ -23,4 +23,5 @@ main()
     rn = sprng();		/* generate double precision random number  */
     printf("%f\n",rn);
   }
+  return 0;
 }

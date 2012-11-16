@@ -5,7 +5,7 @@
 /* the proportion of samples that fall within a circle of unit radius.     */
 /***************************************************************************/
 
-
+#include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
@@ -43,6 +43,7 @@ char *argv[];
   printf( "\tError = %10.8g, standard error = %10.8g\n", error, stderror);
 
   save_state(filename, in, n);	/* check-point final state                 */
+  return 0;
 }
 
 

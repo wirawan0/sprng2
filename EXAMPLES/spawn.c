@@ -5,6 +5,7 @@
 /* is printed.                                                            */
 /***************************************************************************/
 
+#include <stdlib.h>
 #include <stdio.h>
 
 /* Uncomment the following line to get the interface with pointer checking */
@@ -73,5 +74,5 @@ main()
   free_sprng(new[0]);  /* free memory used to store stream state          */
   free_sprng(new[1]);  /* free memory used to store stream state          */
   free(new);
+  return 0;
 }
- 

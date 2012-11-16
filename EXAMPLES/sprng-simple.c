@@ -43,4 +43,5 @@ main()
     printf("%16d\n",irn);
   }
 
+  return 0;
 }

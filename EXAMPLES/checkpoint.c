@@ -8,6 +8,7 @@
 /****************************************************************************/
 
 
+#include <stdlib.h>
 #include <stdio.h>
 
 /* Uncomment the following line to get the interface with pointer checking  */
@@ -89,4 +90,5 @@ main(int argc, char *argv[])
   free(bytes);			/* free memory needed to store stream state */
   free_sprng(stream);           /* free memory used to store stream state   */
 /*}*/
+  return 0;
 }

@@ -17,9 +17,9 @@
 struct rngen
 {
 	int rng_type;
-}
+};
 
-main()
+int main()
 {
   int streamnum, nstreams, *stream;
   double rn;
@@ -76,4 +76,5 @@ main()
 /*---
 }
 */
+  return 0;
 }

@@ -60,4 +60,5 @@ main()
   
   rn = sprng(stream);
   printf("sprng returns %f on being given an invalid stream ID\n", rn);
+  return 0;
 }
