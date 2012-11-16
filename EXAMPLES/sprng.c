@@ -8,7 +8,7 @@
 
 /* Uncomment the following line to get the interface with pointer checking */
 /*#define CHECK_POINTERS                                                   */
- 
+
 #include "sprng.h"  /* SPRNG header file                                   */
 
 #define SEED 985456376
@@ -41,12 +41,12 @@ main()
   for(j = 0; j < 7; j++){
 */
 /****************** Initialization values ****************************/
-           
+
  		streamnum = 0;
  		nstreams = 1;
 
   		stream = init_sprng(gtype, \
-				streamnum,nstreams,SEED,SPRNG_DEFAULT); 
+				streamnum,nstreams,SEED,SPRNG_DEFAULT);
 														/* initialize stream */
   		printf("\n --------------------------------------------------------\n");
   		printf(" Print information about new stream:\n");
@@ -73,7 +73,7 @@ main()
   		/*************************** free memory *****************************/
 
   		free_sprng(stream);  /* free memory used to store stream state */
-/*---  
+/*---
 }
 */
 }

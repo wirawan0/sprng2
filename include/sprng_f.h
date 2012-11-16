@@ -21,7 +21,7 @@
 #define LECU1   0
 #define LECU2   1
 #define LECU3   2
-#define LAG1279    0
+#define LAG1279  0
 #define LAG17    1
 #define LAG31    2
 #define LAG55    3

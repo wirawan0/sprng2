@@ -2,18 +2,18 @@
 
 
 'include' directory:
-sprng_f.h  1. added '#define DEFAULT_RNG_TYPE SPRNG_LFG' since this declaration 
+sprng_f.h  1. added '#define DEFAULT_RNG_TYPE SPRNG_LFG' since this declaration
 	      was in the file 'interface.h' only, where it was unaccessible
-	for Fortran codes at preprocessing time. Should, by symmetry, 
+	for Fortran codes at preprocessing time. Should, by symmetry,
 	such declaration be moved from 'interface.h' to 'sprng.h'?
 
 'SRC' directory:
 simple_mpi.c 1-6 added lines:     #define SPRNG_LFG   0
-                      #define SPRNG_LCG   1                    
-                      #define SPRNG_LCG64 2                          
-                      #define SPRNG_CMRG  3                           
-                      #define SPRNG_MLFG  4                            
-                      #define SPRNG_PMLCG 5  
+                      #define SPRNG_LCG   1
+                      #define SPRNG_LCG64 2
+                      #define SPRNG_CMRG  3
+                      #define SPRNG_MLFG  4
+                      #define SPRNG_PMLCG 5
 
 timing.c	
 
@@ -25,25 +25,25 @@ checkpoint-simpleN.c	1. add DEFAULT_RNG_TYPE to init_sprng
 convertN.c    	1. added #define CONVERT to get complilable code
 		2. added one argument, DEFAULT_RNG_TYPE, to init_sprng
 	
-pi-simpleN.c    1. changed 'initialize' to 'initialize_function' because of 
-		   conflicts, the same name, with libpmlcg.o 
-		2. added one argument, DEFAULT_RNG_TYPE, to init_sprng  
+pi-simpleN.c    1. changed 'initialize' to 'initialize_function' because of
+		   conflicts, the same name, with libpmlcg.o
+		2. added one argument, DEFAULT_RNG_TYPE, to init_sprng
 
 seed-simpleN.c  1. added one argument, DEFAULT_RNG_TYPE, to init_sprng
 
-sprng-simpleN.c  1. added one argument, DEFAULT_RNG_TYPE, to init_sprng 
+sprng-simpleN.c  1. added one argument, DEFAULT_RNG_TYPE, to init_sprng
 	
 simple-simple.c  no changes
 	
 
 
 Fortran programs, simple, no MPI:
-checkpointf-simple.F  1.added one argument, DEFAULT_RNG_TYPE, to init_sprng 
+checkpointf-simple.F  1.added one argument, DEFAULT_RNG_TYPE, to init_sprng
 
-convertf.F      1. added #define CONVERT to get complilable code   
+convertf.F      1. added #define CONVERT to get complilable code
            	2. added one argument, DEFAULT_RNG_TYPE, to init_sprng
-pif-simple.F 	1. changed 'initialize' to 'initialize_function' because of 
-		   conflicts with the same name, in libpmlcg.o  
+pif-simple.F 	1. changed 'initialize' to 'initialize_function' because of
+		   conflicts with the same name, in libpmlcg.o
 		2. added one argument, DEFAULT_RNG_TYPE, to init_sprng
 seedf-simple.F	1. added one argument, DEFAULT_RNG_TYPE, to init_sprng
 

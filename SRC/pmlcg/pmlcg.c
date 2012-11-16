@@ -1,11 +1,11 @@
 /*************************************************************************/
 /*************************************************************************/
 /*           Parallel Prime Modulus Linear Congruential Generator        */
-/*                                                                       */ 
+/*                                                                       */
 /* Author: Ashok Srinivasan,                                             */
 /*            NCSA, University of Illinois, Urbana-Champaign             */
 /* E-Mail: ashoks@ncsa.uiuc.edu                                          */
-/*                                                                       */ 
+/*                                                                       */
 /* Based on: ???                                                         */
 /*                                                                       */
 /* Disclaimer: NCSA expressly disclaims any and all warranties, expressed*/
@@ -20,7 +20,7 @@
 /*************************************************************************/
 
 /*             This is version 0.2, created 13 April 1998                */
- 
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -49,9 +49,9 @@
 #undef _LONG_LONG  /* problems on convex compiler with 64 bit arithmetic */
 #endif
 
-#if LONG_MAX > 2147483647L 
-#if LONG_MAX > 35184372088831L 
-#if LONG_MAX >= 9223372036854775807L 
+#if LONG_MAX > 2147483647L
+#if LONG_MAX > 35184372088831L
+#if LONG_MAX >= 9223372036854775807L
 #define LONG_SPRNG
 #define LONG64 long		/* 64 bit long */
 #endif
@@ -74,7 +74,7 @@
 #define NPARAMS 1		/*** number of valid parameters ***/
 int MAX_STREAMS = (1<<30); /* Maximum number of streams for initialization */
 				/* ... more streams can be spawned, though  */
-   
+
 
 struct rngen
 {
@@ -92,12 +92,12 @@ struct rngen
   unsigned long r[2], a[2];
   int a_size;               /* length of array 'a' */
 #endif
-  MP_INT k, si;         
+  MP_INT k, si;
 };
 
 int NGENS=0;		  /* number of random streams in current process */
 
-  
+
 /* ************************************************************* */
 /* *************************   init   ************************** */
 /* ************************************************************* */
@@ -121,7 +121,7 @@ int seed, param;
 	        ( also, params 'aa[]' and 'x0[]' will be filled )
 
         Sets up the multiplier ('a' array) and initial seed ('r' array)
-        for the given value of k.   [ 'a' == 'aa' ,  'r' == 'x0' ] 
+        for the given value of k.   [ 'a' == 'aa' ,  'r' == 'x0' ]
 	*/
 
   MP_INT A;
@@ -169,38 +169,38 @@ int **initialize(int ngen, MP_INT *old_si, int seed, int param)
      called by: init_rng(), spawn_rng_int
      calls    : init()
      GMP routines
-     
+
      params   : int ngen = number of generators to initialize
      MP_INT old_si = value of k to use for first generator produced
      seed = encoding of starting state of generator
      param = power that determines Merssene prime
      returns  : pointer to pointers to RNGs (rngen structures)
-     
+
      Initializes 'ngen' new generators
      ( allocates memory and gives initial values to the elements of 'rngen' )
      */
   int i,k,l,*order;
-  struct rngen **q;	
+  struct rngen **q;
   static unsigned long a[2], r[2];
   int a_size;
-  
+
   order = (int *) mymalloc(ngen*sizeof(int));
   /* allocate memory for 'ngen' generators */
   q = (struct rngen **) malloc(ngen * sizeof(struct rngen *));
-  if (q==NULL || order==NULL) 
-    return ((int **)NULL); 
+  if (q==NULL || order==NULL)
+    return ((int **)NULL);
 
   for (i=0; i<ngen; i++)
   {
     q[i] = (struct rngen *) malloc(sizeof(struct rngen));
     if(q[i] == NULL)
       return NULL;
-    
+
     mpz_init(&(q[i]->si));
     mpz_init(&(q[i]->k));
   }
 
-  /* set up 1st generator */        
+  /* set up 1st generator */
   mpz_set(&(q[0]->k),old_si);
 #ifdef LONG64
   a_size = init(a, r, &(q[0]->k),seed,param);
@@ -210,14 +210,14 @@ int **initialize(int ngen, MP_INT *old_si, int seed, int param)
   q[0]->a_size = init(q[0]->a, q[0]->r, &(q[0]->k),seed,param);
 #endif
 
-  
+
   mpz_mul_ui(&(q[0]->si), old_si, 2);
   mpz_add_ui(&(q[0]->si), &(q[0]->si), 1);
 
   /* set up remaining generators */
   i = 1;
   order[0] = 0;
-  if (ngen>1) while (1) 
+  if (ngen>1) while (1)
   {
     l = i;
     for (k=0; k<l; k++)
@@ -233,10 +233,10 @@ int **initialize(int ngen, MP_INT *old_si, int seed, int param)
       mpz_mul_ui(&(q[order[k]]->si), &(q[order[k]]->si), 2);
       mpz_set(&(q[i]->si), &(q[order[k]]->si));
       mpz_add_ui(&(q[i]->si), &(q[i]->si), 1);
-      if (ngen == ++i) 
+      if (ngen == ++i)
 	break;
     }
-    if (ngen == i) 
+    if (ngen == i)
       break;
     for (k=l-1; k>0; k--)
     {
@@ -245,9 +245,9 @@ int **initialize(int ngen, MP_INT *old_si, int seed, int param)
     }
     order[1] = l;
   }
-			
+
   free(order);
-  
+
   return( (int **)q );
 
 } /* end of initialize */
@@ -275,12 +275,12 @@ int rng_type,gennum,param,seed,total_gen;
 
   if (gennum >= MAX_STREAMS) /* check if gen_num is valid    */
     fprintf(stderr,"WARNING - init_rng: gennum: %d > maximum number of independent streams: %d\n\tIndependence of streams cannot be guranteed.\n",
-	    gennum, MAX_STREAMS); 
+	    gennum, MAX_STREAMS);
 
   if (gennum < 0 || gennum >= total_gen) /* check if gen_num is valid    */
   {
     fprintf(stderr,"ERROR - init_rng: gennum %d out of range [%d,%d).\n",
-	    gennum, 0, total_gen); 
+	    gennum, 0, total_gen);
     return (int *) NULL;
   }
 
@@ -289,43 +289,43 @@ int rng_type,gennum,param,seed,total_gen;
     fprintf(stderr,"WARNING - init_rng: parameter not valid. Using Default parameter.\n");
     param = 0;
   }
-  
+
   seed &= 0x7fffffff;   /* Only 31 LSB of seed considered */
-  
+
   mpz_init_set_ui(&k, gennum); /*final seed != 0 */
   p = initialize(1, &k, seed, param);
   if(p==NULL)
     return NULL;
   else
-    genptr = (struct rngen *) p[0]; 
+    genptr = (struct rngen *) p[0];
   free(p);
-  
+
   /* Initiallize data structure variables */
   genptr->rng_type = rng_type;
   genptr->gentype = GENTYPE;
   genptr->stream_number = gennum;
   genptr->nstreams = total_gen;
-  genptr->init_seed = seed; 
+  genptr->init_seed = seed;
   genptr->parameter = param;
-  
+
   genptr->narrays = 0;	/* number of arrays needed by your generator */
 
   while ( mpz_cmp_ui(&(genptr->si), total_gen) < 0 )
-    mpz_mul_ui(&(genptr->si), &(genptr->si), 2);		
+    mpz_mul_ui(&(genptr->si), &(genptr->si), 2);
   mpz_clear(&k);
-  
+
   NGENS++;			/* NGENS = # of streams */
   return (int *) genptr;
-} 
+}
 
 
 
 /* ************************************************************* */
 /* *************************  iterate  ************************* */
 /* ************************************************************* */
- 
+
 #ifdef ANSI_C
-void iterate( int *genptr ) 
+void iterate( int *genptr )
 #else
 void iterate( genptr )
 int *genptr;
@@ -350,13 +350,13 @@ int *genptr;
   uh = (gen->mult>>31)&MULT_MASK2;
   vl = gen->x&MULT_MASK1;
   vh = (gen->x>>31)&MULT_MASK2;
-  
+
   x0 = ul*vl;
   x1 = ul*vh + uh*vl + (x0>>31);
   x0 &= MULT_MASK1;
   x3 = ((uh*vh)<<1) + (x1>>30);
   x0 |= (x1&MULT_MASK2)<<31;
-  
+
   gen->x = (x0+x3);
   if(gen->x&MULT_MASK4) /*Note: x != ..MASK3 since x!=0 mod prime for pmlcg */
   {
@@ -374,16 +374,16 @@ calls    : add_ssaaaa(), umul_ppmm()  [ longlong.h ]
 params   : int *genptr = generator to iterate
 returns  : void
 
-Performs the modular multiplication needed to iterate generator 
-Xn+1 = (Xn * a) mod (2^N - 1)                                   
+Performs the modular multiplication needed to iterate generator
+Xn+1 = (Xn * a) mod (2^N - 1)
 
 */
 
 	/*
-	           aa[]    
+	           aa[]
 		*  Xn[]
 	       --------
-               result[] -> result[] is split into 2 parts : kk[]rr[] 
+               result[] -> result[] is split into 2 parts : kk[]rr[]
 
 	       the new Xn[] = ( kk[] + rr[] ) mod ( 2^n - 1)
 	*/
@@ -394,23 +394,23 @@ Xn+1 = (Xn * a) mod (2^N - 1)
   unsigned long prod_lo, prod_hi, res_lo, res_hi;
   long i,j;  /* counter variables           */
   int param = 0;
-  
-  aa = ((struct rngen *)genptr)->a;  
+
+  aa = ((struct rngen *)genptr)->a;
   Xn = ((struct rngen *)genptr)->r;
 
   memset(result,0,4*sizeof(unsigned long)); /* initialize to 0 */
   overflow = 0;
-  
+
 
   /* result[] = aa[] * Xn[] */
   a0 = aa[0];
   b0 = Xn[0];
-  umul_ppmm(prod_hi,prod_lo, a0,b0); 
+  umul_ppmm(prod_hi,prod_lo, a0,b0);
   result[0] = prod_lo;
   result[1] = prod_hi;
-    
+
   b0 = Xn[1];
-  umul_ppmm(prod_hi,prod_lo, a0,b0); 
+  umul_ppmm(prod_hi,prod_lo, a0,b0);
   res_lo = result[1];
   add_ssaaaa(of,temp2, 0,prod_lo, 0,res_lo);
   result[1] = temp2;
@@ -424,7 +424,7 @@ Xn+1 = (Xn * a) mod (2^N - 1)
     b0 = Xn[0];
     res_lo = result[1];
     res_hi = result[2];
-    umul_ppmm(prod_hi,prod_lo, a0,b0); 
+    umul_ppmm(prod_hi,prod_lo, a0,b0);
     add_ssaaaa(of,temp2, 0,prod_lo, 0,res_lo);
     result[1] = temp2;
     add_ssaaaa(temp,temp2,  0, prod_hi,  0,res_hi);
@@ -435,7 +435,7 @@ Xn+1 = (Xn * a) mod (2^N - 1)
     b0 = Xn[1];
     res_lo = result[2];
     res_hi = result[3];
-    umul_ppmm(prod_hi,prod_lo, a0,b0); 
+    umul_ppmm(prod_hi,prod_lo, a0,b0);
     add_ssaaaa(of,temp2, 0,prod_lo, 0,res_lo);
     result[2] = temp2;
     add_ssaaaa(temp,of, 0,of, 0,overflow);
@@ -443,7 +443,7 @@ Xn+1 = (Xn * a) mod (2^N - 1)
     add_ssaaaa(res_hi,res_lo,  temp,temp2, 0,of);
     result[3] = res_lo;
     }
-    
+
   /*  rr = low(result) (R)    kk = hi(result) (K)  */
   rr = result;
   kk = result + OP_SIZE;
@@ -478,15 +478,15 @@ Xn+1 = (Xn * a) mod (2^N - 1)
   /*  perform mod operation  Xn+1 = Xn+1 mod 2^n - 1 */
   /*  Xn+1 = ( r & (2^n-1) ) + ( r >> n )  */
   temp2 = Xn[OP_SIZE - 1] >> SHIFT;
-  Xn[OP_SIZE - 1] &= MASK; 
+  Xn[OP_SIZE - 1] &= MASK;
   for (i=0; i<OP_SIZE; i++)
   {
-    temp = Xn[i]; 
+    temp = Xn[i];
     add_ssaaaa(temp2,res_lo, 0,temp, 0,temp2);
     Xn[i] = res_lo;
   }
 #endif
-  
+
 } /* end of iterate() */
 
 
@@ -528,17 +528,17 @@ int *igenptr;
   num1 = (double) genptr->r[0];
   num2 = (double) genptr->r[1];
   num2 *= (double) 0XFFFFFFFF + 1.0;
-  num1 += num2;	
-	
+  num1 += num2;
+
   num2 = (double) 0XFFFFFFFF + 1.0;
   num2 *= (double) 0X1FFFFFFF + 1.0;
   num2 -= 1.0;
-  num1 /= num2;        
-  
+  num1 /= num2;
+
   return (num1);
 #endif
-  
-} 
+
+}
 
 
 
@@ -552,21 +552,21 @@ int *igenptr;
 #endif
 {
   struct rngen *genptr = (struct rngen *) igenptr;
-  
+
 #ifdef LONG64
   iterate(igenptr);
   return (int) (genptr->x>>30);
 #else
   unsigned long irn;
-  
+
   iterate(igenptr);
 
   irn = (genptr->r[1]<<2) | ((genptr->r[0]&0xc0000000)>>30);
-  
-  return (int) (irn&0x7fffffff); 	
+
+  return (int) (irn&0x7fffffff);
 #endif
-  
-} 
+
+}
 
 
 
@@ -602,15 +602,15 @@ int *igenptr,nspawned, ***newgens, checkid;
 {
   struct rngen **genptr, *tempptr = (struct rngen *) igenptr;
   int i;
-  
+
   if (nspawned <= 0) /* is nspawned valid ? */
   {
     nspawned = 1;
     fprintf(stderr,"WARNING - spawn_rng: nspawned <= 0. Default value of 1 used for nspawned\n");
   }
-  
-  
-  genptr = (struct rngen **) 
+
+
+  genptr = (struct rngen **)
     initialize(nspawned, &tempptr->si,tempptr->init_seed,
 		      tempptr->parameter);
   if(genptr == NULL)	   /* allocate memory for pointers to structures */
@@ -627,20 +627,20 @@ int *igenptr,nspawned, ***newgens, checkid;
       genptr[i]->gentype = GENTYPE;
       genptr[i]->stream_number = tempptr->stream_number;
       genptr[i]->nstreams = tempptr->nstreams;
-      genptr[i]->init_seed = tempptr->init_seed; 
+      genptr[i]->init_seed = tempptr->init_seed;
       genptr[i]->parameter = tempptr->parameter;
-  
+
       genptr[i]->narrays = 0;		/* number of arrays needed by your generator */
 
       NGENS++;
     }
   }
-  
+
   if(checkid != 0)
     for(i=0; i<nspawned; i++)
       if(addID(( int *) genptr[i]) == NULL)
 	return i;
-  
+
   return nspawned;
 }
 
@@ -656,11 +656,11 @@ int *genptr;
 {
   struct rngen *q;
   int i;
-  
+
   q = (struct rngen *) genptr;
   assert(q != NULL);
-  
-  
+
+
   mpz_clear(&(q->k));
   mpz_clear(&(q->si));
 
@@ -688,28 +688,28 @@ char **buffer;
   size =  4 + sizeof(struct rngen) + q->narrays*sizeof(int) + strlen(q->gentype)+1;
   size += q->k._mp_alloc*sizeof(mp_limb_t);
   size += q->si._mp_alloc*sizeof(mp_limb_t);
-  
+
   temp_buffer = (char *) mymalloc(size); /* allocate memory */
   if(temp_buffer == NULL)
   {
     *buffer = NULL;
     return 0;
   }
-  
+
   pos += store_int(q->rng_type,4,temp_buffer+pos);
   strcpy(temp_buffer+pos,q->gentype);
   pos += strlen(q->gentype)+1;
   
   memcpy(temp_buffer+pos,q,sizeof(struct rngen));
   pos += sizeof(struct rngen);
-  
+
   memcpy(temp_buffer+pos,q->k._mp_d,q->k._mp_alloc*sizeof(mp_limb_t));
   pos += q->k._mp_alloc*sizeof(mp_limb_t);
   memcpy(temp_buffer+pos,q->si._mp_d,q->si._mp_alloc*sizeof(mp_limb_t));
   pos += q->si._mp_alloc*sizeof(mp_limb_t);
 
   assert(pos == size);
-  
+
   *buffer = temp_buffer;
   return size;
 }
@@ -734,18 +734,18 @@ char *packed;
   pos += 4; /* skip rng_type */
   if(strcmp(packed+pos,GENTYPE) != 0)
   {
-    fprintf(stderr,"ERROR: Unpacked ' %.24s ' instead of ' %s '\n",  
-	    packed+pos, GENTYPE); 
-    return NULL; 
+    fprintf(stderr,"ERROR: Unpacked ' %.24s ' instead of ' %s '\n",
+	    packed+pos, GENTYPE);
+    return NULL;
   }
   else
     q->gentype = GENTYPE;
   pos += strlen(q->gentype)+1;
-    
+
   memcpy(q,packed+pos,sizeof(struct rngen));
   pos += sizeof(struct rngen);
 
-    
+
   q->k._mp_d = (mp_limb_t *) mymalloc(q->k._mp_alloc*sizeof(mp_limb_t));
   q->si._mp_d = (mp_limb_t *) mymalloc(q->si._mp_alloc*sizeof(mp_limb_t));
   if(q->k._mp_d == NULL || q->si._mp_d == NULL)
@@ -754,13 +754,13 @@ char *packed;
   pos += q->k._mp_alloc*sizeof(mp_limb_t);
   memcpy(q->si._mp_d,packed+pos,q->si._mp_alloc*sizeof(mp_limb_t));
   pos += q->si._mp_alloc*sizeof(mp_limb_t);
-    
+
   NGENS++;
-  
+
   return (int *) q;
 }
 
-      
+
 
 #ifdef __STDC__
 int get_seed_rng(int *gen)
@@ -782,9 +782,9 @@ int *igen;
 #endif
 {
   struct rngen *gen;
-  
+
   printf("\n%s\n", GENTYPE+2);
-  
+
   gen = (struct rngen *) igen;
   printf("\n \tseed = %d, stream_number = %d\tparameter = %d\n\n", gen->init_seed, gen->stream_number, gen->parameter);
 

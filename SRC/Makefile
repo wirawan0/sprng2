@@ -17,8 +17,8 @@ CHKDIR = ..
 ##############################################################################
 ####### The following is the only line in this file that you may modify ######
 # The default generator
-#RNGDEFAULT = lfg 
-LIBLIST = lfg lcg lcg64 cmrg mlfg pmlcg 
+#RNGDEFAULT = lfg
+LIBLIST = lfg lcg lcg64 cmrg mlfg pmlcg
 ##############################################################################
 
 
@@ -28,7 +28,7 @@ include make.$(PLAT)
 #---------------------------------------------------------------------------
 # Jump point to sprng
 #---------------------------------------------------------------------------
-all : 
+all :
 	(cd sprng; $(MAKE) )
 	(p=0 ; \
 	for l in $(LIBLIST) ; do \
@@ -47,10 +47,10 @@ SPRNG_COMMON_DEPEND = primes_32.o primes_64.o \
 sprng_common : $(SPRNG_COMMON_DEPEND)
 
 primes_32.o : primes_32.h primes_32.c
-	$(CC) -c $(CFLAGS) primes_32.c 
+	$(CC) -c $(CFLAGS) primes_32.c
 
 primes_64.o : primes_64.h primes_64.c
-	$(CC) -c $(CFLAGS) primes_64.c 
+	$(CC) -c $(CFLAGS) primes_64.c
 
 fwrap_mpi.o : fwrap.h fwrap_mpi.c
 	$(CC) -c $(CFLAGS) $(FFXN) fwrap_mpi.c
@@ -195,12 +195,12 @@ check_genf_ptr.o : check_genf_ptr.$(FSUFFIX) sprng_f.h
 
 
 
-.SUFFIXES : 
+.SUFFIXES :
 
 .SUFFIXES : .f .F
 
 #---------------------------------------------------------------------------
-.F.f : 
+.F.f :
 	@if [ -f $*.i ] ; then \
 	rm $*.i ;\
 	fi

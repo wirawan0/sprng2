@@ -1,7 +1,7 @@
 /*************************************************************************/
 /*************************************************************************/
 /* Parallel Modified Additive Lagged Fibonacci Generator                 */
-/*                                                                       */ 
+/*                                                                       */
 /* Modified by: Ashok Srinivasan,                                        */
 /*            NCSA, University of Illinois, Urbana-Champaign             */
 /* E-Mail: ashoks@ncsa.uiuc.edu                                          */
@@ -10,7 +10,7 @@
 /*  Steven A. Cuccaro and Daniel V. Pryor,                               */
 /*            IDA/Center for Computing Sciences (CCS)                    */
 /* E-Mail: cuccaro@super.org      pryor@super.org                        */
-/*                                                                       */ 
+/*                                                                       */
 /* Copyright 1996 September 3, United States Government as Represented   */
 /* by the Director, National Security Agency. All rights reserved.       */
 /*                                                                       */
@@ -113,7 +113,7 @@
 #define MAX_BIT_INT (BITS_IN_INT_GEN-2)
 /*      INTX2_MASK is used in calculation of the node numbers            */
 #define INTX2_MASK ((1<<MAX_BIT_INT)-1)
- 
+
 /*      RUNUP keeps certain generators from looking too similar in the   */
 /*          first few words output                                       */
 #define RUNUP (2*BITS_IN_INT_GEN)
@@ -199,7 +199,7 @@ int x;
 {
   unsigned i=0,y;
 
-  for (y=(unsigned)x; y; y &= (y-1) ) 
+  for (y=(unsigned)x; y; y &= (y-1) )
     i++;
 
   return(i);
@@ -242,14 +242,14 @@ int *reg_fill;
   new_fill[1] = new_fill[0] = 0;
   temp = mask<<27;
 
-  for (i=27;i>=0;i--) 
+  for (i=27;i>=0;i--)
   {
     new_fill[0] = (new_fill[0]<<1) | (1&bitcnt(reg_fill[0]&temp));
     new_fill[1] = (new_fill[1]<<1) | (1&bitcnt(reg_fill[1]&temp));
     temp >>= 1;
   }
 
-  for (i=28;i<32;i++) 
+  for (i=28;i<32;i++)
   {
     temp = bitcnt(reg_fill[0]&(mask<<i));
     temp ^= bitcnt(reg_fill[1]&(mask>>(32-i)));
@@ -278,7 +278,7 @@ int param;
   int i,j,k,temp[2], length;
 
   length = valid[param].L;
-  
+
 /*      initialize the shift register with the node number XORed with    */
 /*           the global seed                                             */
 /*      fill the shift register with two copies of this number           */
@@ -298,7 +298,7 @@ int param;
 /*           register at each time, shifted up to make room for the bits */
 /*           defining the canonical form; the node number is XORed into  */
 /*           the fill to make the generators unique                      */
-  for (i=1;i<length-1;i++) 
+  for (i=1;i<length-1;i++)
   {
     advance_reg(temp);
     r[i] = (INT_MASK&(temp[0]^n[i]))<<1;
@@ -333,9 +333,9 @@ int length;
     errprint("WARNING","si_double",TOOMANY);
   a[length-2] = (INTX2_MASK&b[length-2])<<1;
 
-  for (i=length-3;i>=0;i--) 
+  for (i=length-3;i>=0;i--)
   {
-    if (b[i]&(1<<MAX_BIT_INT)) 
+    if (b[i]&(1<<MAX_BIT_INT))
       a[i+1]++;
     a[i] = (INTX2_MASK&b[i])<<1;
   }
@@ -377,7 +377,7 @@ int *genptr;
         r1[hptr] = INT_MOD_MASK&(r1[hptr] + r1[lptr]);
         *hp = (--hptr < 0) ? lval-1 : hptr;
 
-  
+
         return (new_val>>1);
 }
 
@@ -390,10 +390,10 @@ int *genptr;
 /*      returns value put into new position                              */
 {
   unsigned long new_val; /* this cannot be unsigned int due to a bug in the SGI compiler */
-  unsigned  *r0,*r1;	
+  unsigned  *r0,*r1;
   int hptr,lptr,*hp = &((struct rngen *)genptr)->hptr;
   int lval, kval;
-	
+
   lval = ((struct rngen *)genptr)->lval;
   kval = ((struct rngen *)genptr)->kval;
   r0 = ((struct rngen *)genptr)->r0;
@@ -413,7 +413,7 @@ int *genptr;
   *hp = (--hptr<0) ? lval-1 : hptr;
 
         return (new_val*FLT_MULT);
-} 
+}
 
 #ifdef __STDC__
 double get_rn_dbl(int *genptr)
@@ -428,7 +428,7 @@ int *genptr;
   int hptr,lptr,*hp = &((struct rngen *)genptr)->hptr;
   double new_val;
   int lval, kval;
-	
+
   lval = ((struct rngen *)genptr)->lval;
   kval = ((struct rngen *)genptr)->kval;
   r0 = ((struct rngen *)genptr)->r0;
@@ -471,17 +471,17 @@ unsigned *nstart, seed, initseed;
   unsigned *nindex;
 
   length = valid[param].L;
-  
+
 /*      allocate memory for node number and fill of each generator       */
   order = (int *) mymalloc(ngen*sizeof(int));
   q = (struct rngen **) mymalloc(ngen*sizeof(struct rngen *));
-  if (q == NULL || order == NULL) 
+  if (q == NULL || order == NULL)
     return NULL;
 
-  for (i=0;i<ngen;i++) 
+  for (i=0;i<ngen;i++)
   {
     q[i] = (struct rngen *) mymalloc(sizeof(struct rngen));
-    if (q[i] == NULL) 
+    if (q[i] == NULL)
       return NULL;
 
     q[i]->rng_type = rng_type;
@@ -495,8 +495,8 @@ unsigned *nstart, seed, initseed;
     q[i]->seed = seed;
     q[i]->init_seed = initseed;
     q[i]->gentype = GENTYPE;
-    
-    if (q[i]->r1 == NULL || q[i]->r0 == NULL || q[i]->si == NULL) 
+
+    if (q[i]->r1 == NULL || q[i]->r0 == NULL || q[i]->si == NULL)
       return NULL;
   }
 /*      specify register fills and node number arrays                    */
@@ -510,28 +510,28 @@ unsigned *nstart, seed, initseed;
 
   i = 1;
   order[0] = 0;
-  if (ngen>1) 
-    while (1) 
+  if (ngen>1)
+    while (1)
     {
       l = i;
-      for (k=0;k<l;k++) 
+      for (k=0;k<l;k++)
       {
 	nindex = q[order[k]]->si;
 	q[i]->stream_number = nindex[0];
 	si_double(nindex,nindex, length);
-	for (j=0;j<length-1;j++) 
+	for (j=0;j<length-1;j++)
 	  q[i]->si[j] = nindex[j];
 	get_fill(q[i]->si,q[i]->r0,param,seed);
 	q[i]->si[0]++;
 	get_fill(q[i]->si,q[i]->r1,param,seed);
-	if (ngen == ++i) 
+	if (ngen == ++i)
 	  break;
       }
-      
-      if (ngen == i) 
+
+      if (ngen == i)
 	break;
-                
-      for (k=l-1;k>0;k--) 
+
+      for (k=l-1;k>0;k--)
       {
 	order[2*k+1] = l+k;
 	order[2*k] = order[k];
@@ -541,13 +541,13 @@ unsigned *nstart, seed, initseed;
 
   free(order);
 
-  for (i=ngen-1;i>=0;i--) 
+  for (i=ngen-1;i>=0;i--)
   {
     k = 0;
     for (j=1;j<lval-1;j++)
-      if (q[i]->si[j]) 
+      if (q[i]->si[j])
 	k = 1;
-    if (!k) 
+    if (!k)
       break;
     for (j=0;j<length*RUNUP;j++)
       get_rn_int((int *)(q[i]));
@@ -558,7 +558,7 @@ unsigned *nstart, seed, initseed;
     for (j=0;j<4*length;j++)
       get_rn_int((int *)(q[i]));
     i--;
-  }   
+  }
 
   return((int **)q);
 }
@@ -580,7 +580,7 @@ int rng_type,gennum,param,seed,total_gen;
   int **p=NULL, *rng;
   unsigned *nstart=NULL,*si;
 
-  
+
 /*      gives back one generator (node gennum) with updated spawning     */
 /*      info; should be called total_gen times, with different value     */
 /*      of gennum in [0,total_gen) each call                             */
@@ -595,17 +595,17 @@ int rng_type,gennum,param,seed,total_gen;
 
   if (gennum >= MAX_STREAMS) /* check if gen_num is valid    */
     fprintf(stderr,"WARNING - init_rng: gennum: %d > maximum number of independent streams: %d\n\tIndependence of streams cannot be guranteed.\n",
-	    gennum, MAX_STREAMS); 
+	    gennum, MAX_STREAMS);
 
   if (gennum < 0 || gennum >= total_gen) /* check if gen_num is valid */
   {
-    errprint("ERROR","init_rng","gennum out of range. "); 
+    errprint("ERROR","init_rng","gennum out of range. ");
     return (int *) NULL;
   }
 
   seed &= 0x7fffffff;		/* Only 31 LSB of seed considered */
-  
-  if (param < 0 || param >= NPARAMS) 
+
+  if (param < 0 || param >= NPARAMS)
   {
     errprint("WARNING","init_rng","Parameter not valid. Using Default param");
     param = 0;
@@ -616,55 +616,55 @@ int rng_type,gennum,param,seed,total_gen;
 /*            the 1st time                                               */
   length = valid[param].L; /* determine parameters   */
   k = valid[param].K;
-  if (!lval) 
+  if (!lval)
   {
     lval = length; /* determine parameters   */
     kval = k;
     gseed = seed^GS0;
   }
-  else 
+  else
   {
-    if (lval != length) 
+    if (lval != length)
       doexit++;
-    if( seed != (gseed^GS0) ) 
+    if( seed != (gseed^GS0) )
       doexit += 2;
 
-    if (doexit) 
+    if (doexit)
     {
-      if (doexit&1) 
+      if (doexit&1)
 	errprint("WARNING","init_rng","changing global L value! Independence of streams is not guaranteed");
-      if (doexit&2) 
+      if (doexit&2)
 	errprint("WARNING","init_rng","changing global seed value! Independence of streams is not guaranteed");
     }
   }
-  
+
 /*      define the starting vector for the initial node                  */
   nstart = (unsigned *) mymalloc((length-1)*sizeof(unsigned));
   if (nstart == NULL)
     return NULL;
 
   nstart[0] = gennum;
-  for (i=1;i<length-1;i++) 
+  for (i=1;i<length-1;i++)
     nstart[i] = 0;
 
   p = initialize(rng_type,1,param,seed^GS0,nstart,seed);  /* create a generator  */
-  if (p==NULL) 
+  if (p==NULL)
     return NULL;
-  
+
   ((struct rngen *)(p[0]))->stream_number = gennum;
 /*      update si array to allow for future spawning of generators       */
   si = ((struct rngen *)(p[0]))->si;
-  while (si[0] < total_gen && !si[1]) 
+  while (si[0] < total_gen && !si[1])
     si_double(si,si,length);
 
   NGENS++;
-      
+
   free(nstart);
 
   rng = p[0];
   ((struct rngen *)rng)->rng_type = rng_type;
   free(p);
-  
+
   return rng;
 }
 
@@ -685,29 +685,29 @@ int *genptr,nspawned, ***newgens, checkid;
   int **q=NULL, i;
   unsigned *p;
   struct rngen *temp;
-  
+
   if (nspawned <= 0) /* check if nspawned is valid */
   {
     nspawned = 1;
     errprint("WARNING","spawn_rng","Nspawned <= 0. Default value of 1 used for nspawned");
   }
-  
+
   temp = (struct rngen *) genptr;
-  
+
   p = temp->si;
-  
+
   q = initialize(temp->rng_type,nspawned,temp->param,temp->seed,p,temp->init_seed);
-  
-  if (q == NULL) 
+
+  if (q == NULL)
     {
       *newgens = NULL;
       return 0;
     }
-  
+
   si_double(p,p,temp->lval);
 
   NGENS += nspawned;
-      
+
   *newgens = (int **) q;
 
   if(checkid != 0)
@@ -772,13 +772,13 @@ int *genptr;
   int i,*p;
   unsigned *pp;
   struct rngen *temp;
-  
+
   temp = (struct rngen *) genptr;
-  
+
   p = (int *) mymalloc(2*(temp->lval)*sizeof(int));
   if(p == NULL)
     return NULL;
-  
+
   pp = ((struct rngen *)genptr)->r0;
   for (i=0;i<lval;i++)
     p[i] = pp[i];
@@ -798,15 +798,15 @@ int *genptr;
 {
   int i,*p, lval;
   unsigned *pp;
-      
+
   lval = ((struct rngen *) genptr)->lval;
-      
+
   pp = ((struct rngen *)genptr)->si;
   p = (int *) mymalloc((lval-1)*sizeof(int));
   if(p == NULL)
     return NULL;
-  
-  for (i=0;i<lval-1;i++) 
+
+  for (i=0;i<lval-1;i++)
     p[i] = pp[i];
 
   return(p);
@@ -820,8 +820,8 @@ int *a, length;
 #endif
 {
   int i;
-  
-  for (i=0;i<length-2;i++) 
+
+  for (i=0;i<length-2;i++)
   {
     a[i] >>= 1;
     if (a[i+1]&1)
@@ -841,19 +841,19 @@ int *genptr;
   int *p, length;
 
   length = ( (struct rngen *) genptr)->lval;
-  
+
   p = get_next_index_rng(genptr);
   if(p == NULL)
     return NULL;
-  
-  while (!(p[0]&1)) 
+
+  while (!(p[0]&1))
     si_halve(p,length);
   si_halve(p, length);
 
   return(p);
 }
 
- 
+
 /*************************************************************************/
 /*************************************************************************/
 /*                  MESSAGE PASSING ROUTINES                             */
@@ -862,7 +862,7 @@ int *genptr;
 
 
 #ifdef __STDC__
-int pack_rng( int *genptr, char **buffer)
+int pack_rng(int *genptr, char **buffer)
 #else
 int pack_rng(genptr,buffer)
 int *genptr;
@@ -872,7 +872,7 @@ char **buffer;
   int i, size;
   struct rngen *q;
   unsigned char *p, *initp;
-  
+
   q = (struct rngen *)genptr;
   size = 4 + (3*(q->lval)+5)*4 + strlen(q->gentype)+1;
   /* The new load/store routines make using sizeof unnecessary. Infact, */
@@ -883,7 +883,7 @@ char **buffer;
     *buffer = NULL;
     return 0;
   }
-  
+
   p += store_int(q->rng_type,4,p);
   strcpy((char *)p,q->gentype);
   p += strlen(q->gentype)+1;
@@ -899,13 +899,13 @@ char **buffer;
 
   *buffer = (char *) initp;
   assert(p-initp == size);
-  
+
   return p-initp;
 }
 
 
 #ifdef __STDC__
-int *unpack_rng( char *p)
+int *unpack_rng(char *p)
 #else
 int *unpack_rng(p)
 char *p;
@@ -916,22 +916,22 @@ char *p;
   unsigned seed, lag1, lag2;
   unsigned char *packed;
   int rng_type;
-  
+
   packed = (unsigned char *) p;
-  
+
   packed += load_int(packed,4,&rng_type);
   if(strcmp((char *)packed,GENTYPE) != 0)
   {
-    fprintf(stderr,"ERROR: Unpacked ' %.24s ' instead of ' %s '\n",  
-	    packed, GENTYPE); 
-    return NULL; 
+    fprintf(stderr,"ERROR: Unpacked ' %.24s ' instead of ' %s '\n",
+	    packed, GENTYPE);
+    return NULL;
   }
   packed += strlen(GENTYPE)+1;
-    
+
   packed += load_int(packed,4,&lag1);
   packed += load_int(packed,4,&lag2);
   packed += load_int(packed,4,&seed);
-  
+
 /*      check values of parameters for consistency                       */
   for(i=found=0; i<NPARAMS; i++)
     if(lag1==valid[i].L && lag2==valid[i].K)
@@ -939,7 +939,7 @@ char *p;
       found = 1;
       break;
     }
-  
+
   if(found == 0)
   {
     fprintf(stderr,"ERROR: Unpacked parameters are not acceptable.\n");
@@ -950,13 +950,13 @@ char *p;
   length = valid[param].L;
   k = valid[param].K;
 
-  if (!lval) 
+  if (!lval)
   {
     lval = length;
     kval = k;
     gseed = seed;
   }
-  else 
+  else
   {
     if (seed!=gseed)
     {
@@ -968,13 +968,13 @@ char *p;
   q = (struct rngen *) mymalloc(sizeof(struct rngen));
   if(q == NULL)
     return NULL;
-  
+
   q->rng_type = rng_type;
   q->gentype = GENTYPE;
   q->si = (unsigned *) mymalloc((length-1)*sizeof(unsigned));
   q->r0 = (unsigned *) mymalloc(length*sizeof(unsigned));
   q->r1 = (unsigned *) mymalloc(length*sizeof(unsigned));
-  if (q->r1 == NULL || q->si == NULL || q->r0 == NULL) 
+  if (q->r1 == NULL || q->si == NULL || q->r0 == NULL)
     return NULL;
 
   q->lval = length;
@@ -990,7 +990,7 @@ char *p;
   packed += load_int(packed,4,(unsigned int *)&q->hptr);
 
   NGENS++;
-      
+
   return (int *) q;
 }
 
@@ -1016,7 +1016,7 @@ int *genptr;
   free(q);
 
   NGENS--;
-      
+
   return NGENS;
 }
 
@@ -1030,11 +1030,11 @@ int *igen;
 #endif
 {
   struct rngen *gen;
-  
+
   gen = (struct rngen *) igen;
-  
+
   printf("\n%s\n", GENTYPE+2);
-  
+
   printf("\n \tseed = %d, stream_number = %d\tparameter = %d\n\n", gen->init_seed, gen->stream_number, gen->param);
 
   return 1;

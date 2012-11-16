@@ -67,7 +67,7 @@ int n;
 
 /* Read arguments and initialize stream                                    */
 int initialize_function(n, in_old, n_old, filename)
-int *n, *in_old, *n_old; 
+int *n, *in_old, *n_old;
 char *filename;
 {
   int seed, size, new_old;

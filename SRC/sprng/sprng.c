@@ -1,12 +1,12 @@
 /*************************************************************************/
 /*               SPRNG single library version                            */
 /*               sprng.c, Wrapper file for rngs                          */
-/*                                                                       */ 
+/*                                                                       */
 /* Author: Mike H. Zhou,                                                 */
 /*             University of Southern Mississippi                        */
 /* E-Mail: Mike.Zhou@usm.edu                                             */
 /* Date: April, 1999                                                     */
-/*                                                                       */ 
+/*                                                                       */
 /* Disclaimer: We expressly disclaim any and all warranties, expressed   */
 /* or implied, concerning the enclosed software.  The intent in sharing  */
 /* this software is to promote the productive interchange of ideas       */
@@ -41,18 +41,18 @@
 #define VERSION "00"
 #define GENTYPE  VERSION "SPRNG Wrapper"
 
-/* 
- *	This struct is used to retrieve "rng_type" from the rng specific 
- *	"struct rngen". RNGs have different definations for "struct rngen",
+/*
+ *  This struct is used to retrieve "rng_type" from the rng specific
+ *  "struct rngen". RNGs have different definations for "struct rngen",
  *  however, its first field must be the integer "rng_type"
  */
 struct rngen
 {
-	int rng_type;
+    int rng_type;
 };
 
 /*
- *	The function tables, the order of the RNG functions in each table 
+ *  The function tables, the order of the RNG functions in each table
  *  must conform to that of the macro definations in sprng.h and
  *  sprng_f.h,
  *  #define SPRNG_LFG   0
@@ -64,114 +64,114 @@ struct rngen
  */
 
 int *(*init_rng_tbl[])(int rng_type,int gennum,int total_gen,int seed,int mult)\
-	= {	lfg_init_rng, \
-		lcg_init_rng, \
-		lcg64_init_rng, \
-		cmrg_init_rng,\
-		mlfg_init_rng 
+    = { lfg_init_rng, \
+        lcg_init_rng, \
+        lcg64_init_rng, \
+        cmrg_init_rng,\
+        mlfg_init_rng
 #ifdef USE_PMLCG
-		, pmlcg_init_rng
+        , pmlcg_init_rng
 #endif
-	};
+    };
 
 double (*get_rn_dbl_tbl[])(int *igenptr)\
-	={	lfg_get_rn_dbl, \
-		lcg_get_rn_dbl, \
-		lcg64_get_rn_dbl, \
-		cmrg_get_rn_dbl,\
-      		mlfg_get_rn_dbl 
+    ={  lfg_get_rn_dbl, \
+        lcg_get_rn_dbl, \
+        lcg64_get_rn_dbl, \
+        cmrg_get_rn_dbl,\
+            mlfg_get_rn_dbl
 #ifdef USE_PMLCG
-	  	, pmlcg_get_rn_dbl
+        , pmlcg_get_rn_dbl
 #endif
-	};
+    };
 
 int (*get_rn_int_tbl[])(int *igenptr)\
-	={	lfg_get_rn_int, \
-		lcg_get_rn_int, \
-		lcg64_get_rn_int, \
-		cmrg_get_rn_int,\
-	  	mlfg_get_rn_int 
+    ={  lfg_get_rn_int, \
+        lcg_get_rn_int, \
+        lcg64_get_rn_int, \
+        cmrg_get_rn_int,\
+        mlfg_get_rn_int
 #ifdef USE_PMLCG
-	  	, pmlcg_get_rn_int
+        , pmlcg_get_rn_int
 #endif
-	};
+    };
 
 float (*get_rn_flt_tbl[])(int *igenptr)\
-	={	lfg_get_rn_flt, \
-		lcg_get_rn_flt, \
-		lcg64_get_rn_flt, \
-		cmrg_get_rn_flt,\
-	  	mlfg_get_rn_flt 
+    ={  lfg_get_rn_flt, \
+        lcg_get_rn_flt, \
+        lcg64_get_rn_flt, \
+        cmrg_get_rn_flt,\
+        mlfg_get_rn_flt
 #ifdef USE_PMLCG
-	  	, pmlcg_get_rn_flt
+        , pmlcg_get_rn_flt
 #endif
-	};
+    };
 
 int (*spawn_rng_tbl[])(int *igenptr, int nspawned, int ***newgens, int checkid)\
-	={	lfg_spawn_rng, \
-		lcg_spawn_rng, \
-		lcg64_spawn_rng, \
-		cmrg_spawn_rng,\
-	  	mlfg_spawn_rng 
+    ={  lfg_spawn_rng, \
+        lcg_spawn_rng, \
+        lcg64_spawn_rng, \
+        cmrg_spawn_rng,\
+        mlfg_spawn_rng
 #ifdef USE_PMLCG
-	  	, pmlcg_spawn_rng
+        , pmlcg_spawn_rng
 #endif
-	};
+    };
 
 int (*free_rng_tbl[])(int *genptr)\
-	={	lfg_free_rng, \
-		lcg_free_rng, \
-		lcg64_free_rng, \
-		cmrg_free_rng,\
-	  	mlfg_free_rng 
+    ={  lfg_free_rng, \
+        lcg_free_rng, \
+        lcg64_free_rng, \
+        cmrg_free_rng,\
+        mlfg_free_rng
 #ifdef USE_PMLCG
-	  	, pmlcg_free_rng
+        , pmlcg_free_rng
 #endif
-	};
+    };
 
 int (*pack_rng_tbl[])( int *genptr, char **buffer)\
-	={	lfg_pack_rng, \
-		lcg_pack_rng, \
-		lcg64_pack_rng, \
-		cmrg_pack_rng,\
-	  	mlfg_pack_rng 
+    ={  lfg_pack_rng, \
+        lcg_pack_rng, \
+        lcg64_pack_rng, \
+        cmrg_pack_rng,\
+        mlfg_pack_rng
 #ifdef USE_PMLCG
-	  	, pmlcg_pack_rng
+        , pmlcg_pack_rng
 #endif
-	};
+    };
 
 int *(*unpack_rng_tbl[])( char *packed)\
-	={	lfg_unpack_rng, \
-		lcg_unpack_rng, \
-		lcg64_unpack_rng, \
-		cmrg_unpack_rng,\
-	  	mlfg_unpack_rng 
+    ={  lfg_unpack_rng, \
+        lcg_unpack_rng, \
+        lcg64_unpack_rng, \
+        cmrg_unpack_rng,\
+        mlfg_unpack_rng
 #ifdef USE_PMLCG
-	  	, pmlcg_unpack_rng
+        , pmlcg_unpack_rng
 #endif
-	};
+    };
 
 int (*get_seed_rng_tbl[])(int *gen)\
-	={	lfg_get_seed_rng, \
-		lcg_get_seed_rng, \
-		lcg64_get_seed_rng, \
-		cmrg_get_seed_rng,\
-	  	mlfg_get_seed_rng 
+    ={  lfg_get_seed_rng, \
+        lcg_get_seed_rng, \
+        lcg64_get_seed_rng, \
+        cmrg_get_seed_rng,\
+        mlfg_get_seed_rng
 #ifdef USE_PMLCG
-	  	, pmlcg_get_seed_rng
+        , pmlcg_get_seed_rng
 #endif
-	};
+    };
 
 int (*print_rng_tbl[])( int *igen)\
-	={	lfg_print_rng, \
-		lcg_print_rng, \
-		lcg64_print_rng, \
-		cmrg_print_rng,\
-		mlfg_print_rng 
+    ={  lfg_print_rng, \
+        lcg_print_rng, \
+        lcg64_print_rng, \
+        cmrg_print_rng,\
+        mlfg_print_rng
 #ifdef USE_PMLCG
-		, pmlcg_print_rng
+        , pmlcg_print_rng
 #endif
-	};
+    };
 
 
 #ifdef __STDC__
@@ -181,22 +181,22 @@ int *init_rng(rng_type,gennum,total_gen,seed,mult)
 int rng_type,gennum,mult,seed,total_gen;
 #endif
 {
-	if (rng_type==SPRNG_LFG 	|| \
-		rng_type==SPRNG_LCG 	|| \
-		rng_type==SPRNG_LCG64 	||\
-		rng_type==SPRNG_CMRG 	|| \
-		rng_type==SPRNG_MLFG 	 
+    if (rng_type==SPRNG_LFG     || \
+        rng_type==SPRNG_LCG     || \
+        rng_type==SPRNG_LCG64   ||\
+        rng_type==SPRNG_CMRG    || \
+        rng_type==SPRNG_MLFG
 #ifdef USE_PMLCG
-		|| rng_type==SPRNG_PMLCG
+        || rng_type==SPRNG_PMLCG
 #endif
-		)
-	{
-		return init_rng_tbl[rng_type](rng_type,gennum,total_gen,seed,mult);
-	}else{
-		fprintf(stderr, \
-		"Error: in init_rng, invalid generator type: %d.\n", rng_type);
-		return NULL;
-	}
+        )
+    {
+        return init_rng_tbl[rng_type](rng_type,gennum,total_gen,seed,mult);
+    }else{
+        fprintf(stderr, \
+        "Error: in init_rng, invalid generator type: %d.\n", rng_type);
+        return NULL;
+    }
 }
 
 
@@ -208,9 +208,9 @@ int get_rn_int(igenptr)
 int *igenptr;
 #endif
 {
-	struct rngen * tmpgen = (struct rngen *)igenptr;
- return get_rn_int_tbl[tmpgen->rng_type](igenptr); 
-} 
+    struct rngen * tmpgen = (struct rngen *)igenptr;
+ return get_rn_int_tbl[tmpgen->rng_type](igenptr);
+}
 
 #ifdef __STDC__
 float get_rn_flt(int *igenptr)
@@ -230,7 +230,7 @@ double get_rn_dbl(igenptr)
 int *igenptr;
 #endif
 {
-	 return get_rn_dbl_tbl[((struct rngen *)igenptr)->rng_type](igenptr);
+     return get_rn_dbl_tbl[((struct rngen *)igenptr)->rng_type](igenptr);
 } /* get_rn_dbl */
 
 
@@ -242,8 +242,8 @@ int spawn_rng(igenptr,nspawned, newgens, checkid)
 int *igenptr,nspawned, ***newgens, checkid;
 #endif
 {
-	 return spawn_rng_tbl[((struct rngen *)igenptr)->rng_type]\
-		 (igenptr,nspawned,newgens,checkid);
+     return spawn_rng_tbl[((struct rngen *)igenptr)->rng_type]\
+         (igenptr,nspawned,newgens,checkid);
 }
 
 
@@ -255,7 +255,7 @@ int free_rng(genptr)
 int *genptr;
 #endif
 {
-	return free_rng_tbl[((struct rngen *)genptr)->rng_type](genptr);
+    return free_rng_tbl[((struct rngen *)genptr)->rng_type](genptr);
 }
 
 
@@ -267,7 +267,7 @@ int *genptr;
 char **buffer;
 #endif
 {
-	return pack_rng_tbl[((struct rngen *)genptr)->rng_type](genptr,buffer);
+    return pack_rng_tbl[((struct rngen *)genptr)->rng_type](genptr,buffer);
 }
 
 
@@ -279,7 +279,7 @@ int get_seed_rng(gen)
 int *gen;
 #endif
 {
-	return get_seed_rng_tbl[((struct rngen *)gen)->rng_type](gen);
+    return get_seed_rng_tbl[((struct rngen *)gen)->rng_type](gen);
 }
 
 
@@ -290,26 +290,26 @@ int *unpack_rng(packed)
 char *packed;
 #endif
 {
-	int rng_type;
+    int rng_type;
 
-	load_int(packed,4,(unsigned int *)&rng_type);
-	if (rng_type==SPRNG_LFG 	|| \
-		rng_type==SPRNG_LCG 	|| \
-		rng_type==SPRNG_LCG64 	||\
-		rng_type==SPRNG_CMRG 	|| \
-		rng_type==SPRNG_MLFG 	 
+    load_int(packed,4,(unsigned int *)&rng_type);
+    if (rng_type==SPRNG_LFG     || \
+        rng_type==SPRNG_LCG     || \
+        rng_type==SPRNG_LCG64   ||\
+        rng_type==SPRNG_CMRG    || \
+        rng_type==SPRNG_MLFG
 #ifdef USE_PMLCG
-		|| rng_type==SPRNG_PMLCG
+        || rng_type==SPRNG_PMLCG
 #endif
-		){
-		
-			return unpack_rng_tbl[rng_type](packed);
-		} else {
-			return NULL;
-		}
+        ){
+
+            return unpack_rng_tbl[rng_type](packed);
+        } else {
+            return NULL;
+        }
 }
 
-      
+
 
 #ifdef __STDC__
 int print_rng( int *igen)
@@ -318,7 +318,7 @@ int print_rng(igen)
 int *igen;
 #endif
 {
-	return print_rng_tbl[((struct rngen *)igen)->rng_type](igen);
+    return print_rng_tbl[((struct rngen *)igen)->rng_type](igen);
 }
 
 
