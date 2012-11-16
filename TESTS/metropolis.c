@@ -9,7 +9,7 @@
 #include "sprng.h"
 
 #define PARALLEL
-#define SYNC 
+#define SYNC 1
 
 int lattice_size, *spin, nsites;
 int **genptr;			/* array of random number generators */
@@ -336,7 +336,7 @@ void thermalize(int block_size, int discard_blocks)
 /* block_size*use_blocks sweeps through a lattice of size 
 lattice_size*lattice_size using the Metropolis algorithm for the Ising model */
 
-void main(int argc, char **argv)
+int main(int argc, char **argv)
 {
   /*--- Add rng_time as the 1st argument ---*/
   int rng_type;
@@ -379,4 +379,5 @@ void main(int argc, char **argv)
   
   /********** Perform the actual Metropolis algorithm calculations *********/
   metropolis(block_size, use_blocks);
+  return 0;
 }

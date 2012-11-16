@@ -1,6 +1,7 @@
 /*  Note: This test is not in the regular SPRNG test format */
 
 
+#include <stdlib.h>
 #include <stdio.h>
 #if defined(SPRNG_MPI)
 #include "mpi.h"
@@ -72,7 +73,7 @@ main(int argc, char *argv[])
 #if defined(SPRNG_MPI)
      MPI_Finalize();
 #endif
-
+  return 0;
 }
 
 

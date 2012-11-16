@@ -1,4 +1,6 @@
+#include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "tests.h"
 
 #ifndef ANSI_ARGS
@@ -80,7 +82,7 @@ char *argv[];
 #if defined(SPRNG_MPI)
      MPI_Finalize();
 #endif
-
+  return 0;
 }
 
 

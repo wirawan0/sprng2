@@ -1,6 +1,7 @@
 #ifdef SPRNG_MPI
 #include <mpi.h>
 #endif
+#include <stdlib.h>
 #include <stdio.h>
 /*#define READ_FROM_STDIN*/   /* read random numbers from stdin */
 #ifndef READ_FROM_STDIN

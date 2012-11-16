@@ -2,6 +2,8 @@
 #include <mpi.h>
 #endif
 
+#include <stdlib.h>
+#include <string.h>
 #include "util.h"
 
 #define SPRNG_MPI_KS 0

@@ -2,8 +2,10 @@
      Chi-Square Probability Function and Kolmogorv-Smirnov 
 **********************************************************/
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <string.h>
 #include "util.h"
 
 #define ITMAX 10000000        /* maximum allowed number of iterations */
@@ -637,7 +639,7 @@ void mean_sd(double *x, int n, double *mean, double *sd)
     ave += x[i];
   ave /= n;
   
-  diff = var = 0.0;
+  error = diff = var = 0.0;
   
   for(i=0; i<n; i++)
   {

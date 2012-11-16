@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <stdio.h>
 #include "tests.h"
 #include <math.h>
@@ -19,9 +20,9 @@ int xt_t = 1;
 
 
 #ifdef __STDC__
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 #else
-main(argc, argv)
+int main(argc, argv)
 int argc;
 char *argv[];
 #endif
@@ -69,7 +70,7 @@ char *argv[];
 #if defined(SPRNG_MPI)
   MPI_Finalize();
 #endif
-
+  return 0;
 }
 
 

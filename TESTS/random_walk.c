@@ -1,6 +1,7 @@
 /* A two-dimensional random walk test based on the code of I. Vattulainen, 
    et al  */
 
+#include <stdlib.h>
 #include <stdio.h>
 #include "tests.h"
 #include <math.h>
@@ -69,7 +70,7 @@ char *argv[];
 #if defined(SPRNG_MPI)
      MPI_Finalize();
 #endif
-
+  return 0;
 }
 
 

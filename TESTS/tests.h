@@ -2,6 +2,10 @@
 #define _tests_h
 #include "util.h"
 
+#ifdef SPRNG_MPI
+#include <mpi.h>
+#endif
+
 /*--- increase the macro N_STREAM_PARAM by 1 ---*/
 /*--- adding rng_type as the 1st argument    ---*/
 #define N_STREAM_PARAM 7

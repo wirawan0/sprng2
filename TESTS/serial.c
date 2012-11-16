@@ -81,9 +81,9 @@ void deinitTest() {
 
 /********************************************************************/
 #ifdef __STDC__
-void main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {
 #else
-void main(argc, argv) int argc; char *argv[]; {
+int main(argc, argv) int argc; char *argv[]; {
 #endif
    long  curRound, index;
    double  KSvalue, KSprob;
@@ -118,5 +118,5 @@ void main(argc, argv) int argc; char *argv[]; {
 #if defined(SPRNG_MPI)
      MPI_Finalize();
 #endif
-
+  return 0;
 }
