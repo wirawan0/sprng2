@@ -30,7 +30,8 @@
 #PLAT = CONVEX
 #PLAT = DEC
 #PLAT = HP
-PLAT = INTEL
+#PLAT = INTEL
+PLAT = X86_64
 #PLAT = O2K
 #PLAT  = SGI
 #PLAT = SP2		# IBM SP2
@@ -38,6 +39,17 @@ PLAT = INTEL
 # For T3D, Use PLAT=T3E instead
 #PLAT =  T3E
 #PLAT  = GENERIC
+
+# If autodetect is enabled (default) then we will use the following.
+# This logic requires GNU Make:
+autodetect = 1
+ifeq ($(autodetect),1)
+  host := $(shell hostname -f)
+  ifeq ($(host), pzt.wm.edu)
+    # A fake platform for PZT: it uses GNU compilers by default
+    PLAT = PZT
+  endif
+endif
 
 ############################################################################
 
