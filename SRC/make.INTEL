@@ -6,10 +6,10 @@ RANLIB = ranlib
 CC = gcc
 CLD = $(CC)
 # Set f77 to echo if you do not have a FORTRAN compiler
-F77 = g77
+F77 = gfortran
 #F77 = echo
 F77LD = $(F77)
-FFXN = -DAdd__
+FFXN = -DAdd_
 FSUFFIX = F
 
 MPIF77 = mpif77
@@ -25,7 +25,9 @@ MPICC = mpicc
 #MPILIB = -lmpich
 # This is fine for Ubuntu 7.04:
 MPIDEF = -DSPRNG_MPI -I/usr/include/lam
-MPILIB = -llam
+# [20081208] Trying OpenMPI with Ubuntu 8.10:
+MPIDEF = -DSPRNG_MPI -I/usr/include/mpi
+MPILIB = -lmpi_f77 -lmpi
 
 # Please include mpi header file path, if needed
 
