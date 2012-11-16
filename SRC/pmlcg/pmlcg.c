@@ -32,6 +32,7 @@
 #include "pmlcg.h"
 #include "gmp.h"
 #include "basic.h"
+#include "store.h"
 #include <math.h>
 
 #define init_rng pmlcg_init_rng
@@ -699,7 +700,9 @@ char **buffer;
   pos += store_int(q->rng_type,4,temp_buffer+pos);
   strcpy(temp_buffer+pos,q->gentype);
   pos += strlen(q->gentype)+1;
-  
+
+  /* WARNING: the use of memcpy here makes this rng state NOT portable across
+     different endianness. */
   memcpy(temp_buffer+pos,q,sizeof(struct rngen));
   pos += sizeof(struct rngen);
 

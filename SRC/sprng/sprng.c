@@ -23,6 +23,7 @@
 #include <stdlib.h>
 #include "memory.h"
 #include "sprng.h"
+#include "store.h"
 #include "interface.h"
 
 #include "lfg/lfg.h"

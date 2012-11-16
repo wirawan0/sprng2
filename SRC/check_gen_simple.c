@@ -286,8 +286,9 @@ char *argv[];
     printf("\nResult:\t FAILED\n\n");
 
 #ifdef USE_MPI
-}
+  }
   MPI_Finalize();
 #endif
+  return 0;
 }
 

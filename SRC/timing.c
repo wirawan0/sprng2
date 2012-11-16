@@ -11,7 +11,7 @@
 #define TIMING_TRIAL_SIZE 1000000
 #define PARAM 0
 
-main()
+int main()
 {
 
   int i;
@@ -60,7 +60,7 @@ main()
   }
 
   /* The next line is just used to ensure that the optimization does not remove the call to the RNG. Nothing is really printed.             */
-  fprintf(stderr,"Last random number generated\n", get_rn_dbl(gen));
+  fprintf(stderr,"Last random number generated = %g\n", get_rn_dbl(gen));
 
   printf("\nUser + System time Information (Note: MRS = Million Random Numbers Per Second)\n");
   printf("\tInteger generator:\t Time = %7.3f seconds => %8.4f MRS\n",
@@ -70,6 +70,7 @@ main()
   printf("\tDouble generator:\t Time = %7.3f seconds => %8.4f MRS\n",
 	 temp4-temp3, temp_mult/(temp4-temp3));
   putchar('\n');
-  
+
+  return 0;
 }
 

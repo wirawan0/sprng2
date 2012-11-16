@@ -39,6 +39,9 @@ int junkmpi;			/* pass useless pointer at times */
 
 
 #ifdef SPRNG_MPI
+
+#include "communicate.h"
+
 #ifdef __STDC__
 int *init_rng_simple_mpi(int rng_type, int seed,  int mult)
 #else

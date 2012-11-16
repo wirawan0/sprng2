@@ -513,8 +513,9 @@ char *argv[];
 #endif
 
 #ifdef USE_MPI
-}
+  }
   MPI_Finalize();
 #endif
+  return 0;
 }
 

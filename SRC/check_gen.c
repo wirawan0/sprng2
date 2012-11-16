@@ -432,9 +432,9 @@ unsigned int seed;
 
 
 #ifdef __STDC__
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 #else
-main(argc, argv)
+int main(argc, argv)
 int argc;
 char *argv[];
 #endif
@@ -485,8 +485,9 @@ char *argv[];
 #endif
 
 #ifdef USE_MPI
-}
+  }
   MPI_Finalize();
 #endif
+  return 0;
 }
 
