@@ -14,7 +14,7 @@ void init_poker ANSI_ARGS((long n, int k, int d));
 double poker ANSI_ARGS((long n, int k, int d));
 double stirling ANSI_ARGS((int n, int m));
 
-static int ncatagories = 0, *bins, *index, Bins_used=0;
+static int ncatagories = 0, *bins, *Index, Bins_used=0;
 long *actual;
 double *probability;
 
@@ -71,7 +71,7 @@ char *argv[];
   free(bins);
   free(actual);
   free(probability);
-  free(index);
+  free(Index);
 
 #if defined(SPRNG_MPI)
      MPI_Finalize();
@@ -93,7 +93,7 @@ int k, d;
   long sum;
   
   bins = (int *) mymalloc(d*sizeof(int));
-  index = (int *) mymalloc((k+1)*sizeof(int));
+  Index = (int *) mymalloc((k+1)*sizeof(int));
   pr = (double *) mymalloc((k+1)*sizeof(double));
   temp = pow((double) d, - (double) k);
   
@@ -107,7 +107,7 @@ int k, d;
   sum = 0;
   for(i=1; i<=k; i++)
   {
-    index[i] = ncatagories;
+    Index[i] = ncatagories;
     sum += n*pr[i];
     
     if(sum > 5 && i < k)
@@ -125,7 +125,7 @@ int k, d;
     probability[i] = 0.0;
   
   for(i=1; i<=k; i++)
-    probability[index[i]] += pr[i];
+    probability[Index[i]] += pr[i];
   
   free(pr);
 }
@@ -157,7 +157,7 @@ long n;
     for(j=0; j<d; j++)
       sum += bins[j];
     
-    actual[index[sum]]++;
+    actual[Index[sum]]++;
   }
   
   temp = chisquare(actual,probability,n, ncatagories, &Bins_used);
