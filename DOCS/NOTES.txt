@@ -1,0 +1,98 @@
+[20090330]
+Why can't we use Fortran POINTER to represent C pointer?
+The API was quite different!
+
+References:
+toys/sprng/debug1/gfortran-O0
+toys/sprng/debug1/gfortran-O2
+toys/sprng/debug1/pgi-7.2
+
+Function like this
+
+type(sprng_type) function init_sprng(gentype, streamnum, nstreams, seed, param) &
+  result(stream)
+  integer, intent(in) :: gentype, streamnum, nstreams, seed, param
+  stream%ptr => finit_rng(gentype, streamnum, nstreams, seed, param)
+end function
+
+was translated, by gfortran 4.3.2, into: (x86-64, no optimization)
+
+    .globl __rng_sprng_MOD_init_sprng
+            .type   __rng_sprng_MOD_init_sprng, @function
+    __rng_sprng_MOD_init_sprng:
+    .LFB7:
+            pushq   %rbp
+    .LCFI13:
+            movq    %rsp, %rbp
+    .LCFI14:
+            subq    $64, %rsp
+    .LCFI15:
+            movq    %rdi, -24(%rbp)
+            movq    %rsi, -32(%rbp)
+            movq    %rdx, -40(%rbp)
+            movq    %rcx, -48(%rbp)
+            movq    %r8, -56(%rbp)
+            movq    -56(%rbp), %rax
+            movq    -48(%rbp), %rcx
+            movq    -40(%rbp), %rdx
+            movq    -32(%rbp), %rsi
+            movq    -24(%rbp), %rdi
+            movq    %rax, %r8
+            call    finit_rng_
+            movq    %rax, -16(%rbp)
+            movq    -16(%rbp), %rax
+            leave
+            ret
+
+but the same function was translated to, by PGI Fortran 7.2 (x86-64 also):
+
+
+        .globl  rng_sprng_init_sprng_
+rng_sprng_init_sprng_:
+..Dcfb0:
+        pushq   %rbp
+..Dcfi0:
+        movq    %rsp, %rbp
+..Dcfi1:
+        subq    $96, %rsp
+        movq    %rdi, -96(%rbp)  # <<<<<<< There is a hidden argument here
+                                 # which will contain the pointer value,
+                                 # as clearly seen in the calling of this function (see below)
+        movq    %rsi, -88(%rbp)
+        movq    %rdx, -80(%rbp)
+        movq    %rcx, -72(%rbp)
+        movq    %r8, -64(%rbp)
+        movq    %r9, -56(%rbp)
+##  lineno: 225
+..EN3_323:
+##  lineno: 225 (init_sprng,rng_sprng.F90)
+##  lineno: 228
+..LN1:
+        subq    $16, %rsp
+        movq    $.C3_331, (%rsp)
+        movq    -96(%rbp), %rdi
+        movq    -88(%rbp), %rsi
+        movq    -80(%rbp), %rdx
+        movq    -72(%rbp), %rcx
+        movq    -64(%rbp), %r8
+        movq    -56(%rbp), %r9
+        call    finit_rng_
+        addq    $16, %rsp
+##  lineno: 229
+..LN2:
+        leave
+        ret
+
+... and the caller of this function is:
+
+..LN50:
+        leaq    -8(%rbp), %rdi
+        movl    $random_gen_8_, %esi
+        movl    $random_gen_0_+116, %edx
+        movl    $random_gen_0_+120, %ecx
+        movl    $random_gen_8_+8, %r8d
+        movl    $random_gen_8_+12, %r9d
+        call    rng_sprng_init_sprng_
+        movq    -8(%rbp), %rax
+        movq    %rax, random_gen_2_(%rip)
+
