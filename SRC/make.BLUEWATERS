@@ -1,0 +1,72 @@
+# Using PGI/Intel/Cray/GNU compilers, on Blue Waters
+# 20121116
+
+AR = ar
+ARFLAGS = cr
+#If your system does not have ranlib, then replace next statement with 
+#RANLIB = echo
+RANLIB = ranlib
+
+target ?= cnl
+ifeq ($(target),cnl)
+  FC = ftn -target=linux
+  CC = cc
+  MPIF77 = $(FC)
+  MPICC = $(CC)
+else
+  $(error This doesn't work yet)
+  FC = pgf95
+  CC = pgcc
+endif
+F77 = $(FC)
+CLD = $(CC)
+F77LD = $(F77)
+FFXN = -DAdd_
+FSUFFIX = F
+
+# To use MPI, set the MPIDIR to location of mpi library, and MPILIB 
+# to name of mpi library. Remove # signs from beginning of next 3 lines.
+# Also, if the previous compilation was without MPI, type: make realclean
+# before compiling for mpi.
+#
+# On Cray sytems, we assume these have been taken care by Cray wrapper
+MPIDIR =
+MPILIB =
+MPIDEF = -DSPRNG_MPI
+
+# Please include mpi header file path, if needed
+# We default to using _LONG_LONG.
+
+CFLAGS_GNU = -O3 -g -DLittleEndian $(PMLCGDEF) $(MPIDEF) -D$(PLAT) -D_LONG_LONG -DPOINTER_SIZE=8
+CLDFLAGS_GNU =
+FFLAGS_GNU = -O3 -g $(PMLCGDEF) $(MPIDEF) -D$(PLAT) -D_LONG_LONG -DPOINTER_SIZE=8
+F77LDFLAGS_GNU =
+
+CFLAGS_CRAY = -O3 -G2 -DLittleEndian $(PMLCGDEF) $(MPIDEF) -D$(PLAT) -D_LONG_LONG -DPOINTER_SIZE=8
+CLDFLAGS_CRAY =
+FFLAGS_CRAY = -O3 -G2 $(PMLCGDEF) $(MPIDEF) -D$(PLAT) -D_LONG_LONG -DPOINTER_SIZE=8
+F77LDFLAGS_CRAY =
+
+CFLAGS_INTEL = -O3 -DLittleEndian $(PMLCGDEF) $(MPIDEF) -D$(PLAT) -D_LONG_LONG -DPOINTER_SIZE=8
+CLDFLAGS_INTEL =
+FFLAGS_INTEL = -O3 $(PMLCGDEF) $(MPIDEF) -D$(PLAT) -D_LONG_LONG -DPOINTER_SIZE=8
+F77LDFLAGS_INTEL =
+
+CFLAGS_PGI = -fast -DLittleEndian $(PMLCGDEF) $(MPIDEF) -D$(PLAT) -D_LONG_LONG -DPOINTER_SIZE=8
+CLDFLAGS_PGI =
+FFLAGS_PGI = -fast $(PMLCGDEF) $(MPIDEF) -D$(PLAT) -D_LONG_LONG -DPOINTER_SIZE=8
+F77LDFLAGS_PGI =
+
+ifndef CFLAGS_$(PE_ENV)
+    $(error Unsupported Cray programming environment?)
+else
+    CFLAGS = $(CFLAGS_$(PE_ENV))
+    CLDFLAGS = $(CLDFLAGS_$(PE_ENV))
+    FFLAGS = $(FFLAGS_$(PE_ENV))
+    F77LDFLAGS = $(F77LDFLAGS_$(PE_ENV))
+endif
+
+CPP = cpp -P
+
+# Override GMP library location:
+#GMPLIB = -L$(HOME)/local/lib -lgmp-static

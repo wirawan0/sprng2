@@ -49,6 +49,12 @@ ifeq ($(autodetect),1)
     # A fake platform for PZT: it uses GNU compilers by default
     PLAT = PZT
   endif
+  ifneq ($(filter h2ologin1.ncsa.illinois.edu \
+                  h2ologin2.ncsa.illinois.edu \
+                  h2ologin3.ncsa.illinois.edu,$(host)),)
+    # A fake platform for PZT: it uses GNU compilers by default
+    PLAT = BLUEWATERS
+  endif
 endif
 
 ############################################################################
