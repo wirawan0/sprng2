@@ -44,6 +44,18 @@ PLAT = X86_64
 # This logic requires GNU Make:
 autodetect = 1
 ifeq ($(autodetect),1)
+
+  Hosts_titan = titan-ext1 titan-ext2 titan-ext3 titan-ext4 \
+		titan-ext5 titan-ext6 titan-ext7 titan-ext8 \
+		titan-ext9 titan-ext10
+
+  Hosts_eos   = eos-ext1 eos-ext2 eos-ext3 eos-ext4 \
+		eos-ext5 eos-ext6 eos-ext7 eos-ext8 \
+		eos-ext9 eos-ext10
+
+  Hosts_titan := $(addsuffix .ccs.ornl.gov,$(Hosts_titan))
+  Hosts_eos := $(addsuffix .ccs.ornl.gov,$(Hosts_eos))
+
   host := $(shell hostname -f)
   ifeq ($(host), pzt.wm.edu)
     # A fake platform for PZT: it uses GNU compilers by default
@@ -52,9 +64,15 @@ ifeq ($(autodetect),1)
   ifneq ($(filter h2ologin1.ncsa.illinois.edu \
                   h2ologin2.ncsa.illinois.edu \
                   h2ologin3.ncsa.illinois.edu,$(host)),)
-    # A fake platform for PZT: it uses GNU compilers by default
+    # A fake platform for Blue Waters: auto-detect compiler settings
     PLAT = BLUEWATERS
   endif
+  ifneq ($(filter $(Hosts_titan) $(Hosts_eos),$(host)),)
+    # A fake platform for OLCF machines: auto-detect compiler settings
+    PLAT = OLCF
+  endif
+else
+  $(warning No autodetect host)
 endif
 
 ############################################################################
